@@ -230,5 +230,94 @@
         <center>
             <img src = 'images/ImageManipulationCode.png' width = '700'/>
         </center>   
+        <h2>Tkinter GUI</h2>
+        <p>In this project we had to make our own GUI. I used Tkinter to create a gravity simulation. The GUI takes in inputs such 
+            as initial velocity, the gravity, and angle values. It is then launched when the "go" button is pressed.</p>
+        <textarea cols = "95">
+           "import Tkinter
+            import math
+
+            root = Tkinter.Tk()
+
+            canvas = Tkinter.Canvas(root, width=600, height=600, background='#FFFFFF')
+            canvas.grid(row=0, rowspan=6, column=1)
+
+            #make variables
+            initial_velocity = Tkinter.IntVar()
+            initial_velocity.set(10)
+
+            gravity = Tkinter.IntVar()
+            gravity.set(10)
+
+            angle = Tkinter.IntVar()
+            angle.set(0)
+
+
+            #make sliders
+            initial_velocity_slider = Tkinter.Scale(root, from_ = 0, to = 30, 
+            variable= initial_velocity,orient= Tkinter.HORIZONTAL, label='Initial Velocity')
+            initial_velocity_slider.grid(row=1, column=0, sticky=Tkinter.E)
+
+            gravity_slider = Tkinter.Scale(root, from_ = 0, to = 20, variable= gravity, 
+            orient= Tkinter.HORIZONTAL, label='Gravity Value')
+            gravity_slider.grid(row=2, column=0, sticky=Tkinter.E)
+
+            angle_slider = Tkinter.Scale(root, from_ = 0, to = 360, variable= angle,
+            orient= Tkinter.HORIZONTAL, label='Angle')
+            angle_slider.grid(row=3, column=0, sticky=Tkinter.E)
+
+
+            #make circle 
+            r = 10
+            x = 300
+            y = 400
+            circle_item = canvas.create_oval(x-r, y-r, x+r, y+r, 
+                                             outline='#000000', fill='#00FFFF')
+
+
+            #def velocitygetting():
+            #    velocity_x = initial_velocity.get() *  math.cos(angle.get()) 
+            #   velocity_y = initial_velocity.get() * math.sin(angle.get()) * -1
+            #    animate()
+
+            counter = 0
+            def animate(): 
+                velocity_x = initial_velocity.get() *  math.cos(angle.get() * 3.14159265359 / 180) 
+                velocity_y = initial_velocity.get() * math.sin(angle.get() * 3.14159265359 / 180) * -1 
+
+                gravityyy = gravity.get()
+
+                global counter
+                counter += 1
+                velocity_y = velocity_y + counter * gravityyy/10
+                canvas.move(circle_item, velocity_x, velocity_y)
+
+                x1, y1, x2, y2 = canvas.coords(circle_item)
+                if (x1 < 0 or x2 > 600) or ( y1 < 0 or y2 > 600):
+                   reset()
+                   return 
+
+                canvas.after(1, animate)
+
+            def reset():
+                global counter
+                counter = 0
+                x1, y1, x2, y2 = canvas.coords(circle_item)
+                canvas.move(circle_item, 290-x1 , 390-y1)
+
+
+
+
+            # make button
+
+            B = Tkinter.Button(root, text ="Go", command = animate)
+            B.grid(row = 4, column = 0)
+
+
+
+
+            root.mainloop()
+            "
+            </textarea>
     </body>
 </html>
