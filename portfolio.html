@@ -353,7 +353,52 @@
         <h2>NetLogo Simulation</h2>
         <p>Original Simulation</p>
         <img src = "images/NetLogoOriginal.png" width = '800'/>
-        <img src = 
+        <p>Modified Simulation: We changed the shape and color of the objects. We also changed the way that they move so that they go in 
+            random directions.</p>
+        <img src = "images/NetlogoChanged.png" width = '800'/>
+        <p>Code for the modified simulation</p>
+        <textarea rows = "25" cols = "95">
+            ;; setup is called once at the beginning of each run
+            ;; it clears the world and resets the tick counter
+            to setup
+              clear-all
+              reset-ticks
+            end
+
+            ;; hatch a new turtle and set its color and direction.
+            ;; then each turtle moves forward by step-size, increases
+            ;; its size and if it is on the edge of the view, dies.
+            to go
+              ;; Our Code Addition
+              let a random 3
+              if a = 0 [ set-default-shape turtles "square" ]
+              if a = 1 [ set-default-shape turtles "circle" ]
+              if a = 2 [ set-default-shape turtles "arrow" ]
+
+              let b random 1
+              if b = 0 [set b -1]
+              ;;
+
+              create-turtles 1
+              [
+                set color 10 * (ticks mod num-colors) + 15
+                set size 0.6 * sqrt distancexy 0 0
+                set heading ticks * b * turn-increment * 360
+              ]
+              ask turtles
+              [
+                fd step-size
+                set size 0.6 * sqrt distancexy 0 0
+                if distancexy 0 0 > max-pxcor
+                  [ die ]
+              ]
+              tick
+            end
+
+
+            ; Copyright 2003 Uri Wilensky.
+            ; See Info tab for full copyright and license.
+         </textarea>
                 
                 
             
